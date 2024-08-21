@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:db_miner_quotes_app/screen/home/controller/home_controller.dart';
 import 'package:db_miner_quotes_app/screen/home/model/home_model.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    controller.getQuotes();
     super.initState();
+    controller.getQuotes();
   }
 
   @override
@@ -26,62 +27,47 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Quotes App"),
       ),
-
-      // body: FutureBuilder(
-      //   future: controller.quotesModel,
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasError) {
-      //       return Center(child: Text("${snapshot.error}"));
-      //     }
-      //     else if (snapshot.hasData) {
-      //       // NewsModel? model = snapshot.data;
-      //       // providerR!.articlesList.addAll(model!.articlesList!);
-      //
-      //       QuotesModel? model = snapshot.data;
-      //       // controller.resultsList.addAll(model!.resultsList!);
-      //
-      //       if (model == null) {
-      //         return const Center(child: Text("not available"));
-      //       }
-      //       else if (controller.resultsList.isEmpty) {
-      //         return const Center(child: Text("search another topic"));
-      //       }
-      //       else {
-      //         return Expanded(
-      //           child: GridView.builder(
-      //             itemCount: model.length,
-      //             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //                 crossAxisCount: 2),
-      //             itemBuilder: (context, index) {
-      //               return Column(
-      //                 children: [
-      //                   Obx(
-      //                     () => Container(
-      //                       height: 200,
-      //                       width: 200,
-      //                       decoration: const BoxDecoration(
-      //                         color: Colors.white,
-      //                       ),
-      //                       child: Center(
-      //                         child: Text(
-      //                             "${controller.resultsList[index].tags}"),
-      //                       ),
-      //                     ),
-      //                   )
-      //                   // Text("Hello"),
-      //                 ],
-      //               );
-      //             },
-      //           ),
-      //         );
-      //       }
-      //
-      //     }
-      //     return const Center(child: CircularProgressIndicator());
-      //   },
-      //
-      // ),
-
+      body: Obx(
+        () => ListView.builder(
+          itemCount: controller.quotesList.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Get.toNamed("/details",
+                        arguments: controller.quotesList[index]);
+                  },
+                  child: Container(
+                    height: 150,
+                    width: MediaQuery.sizeOf(context).width,
+                    margin: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        gradient: const LinearGradient(colors: [
+                          Color(0xffff5339),
+                          Color(0xffff126e),
+                        ]),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Center(
+                      child: DefaultTextStyle(
+                        style: const TextStyle(
+                          fontSize: 20,fontWeight: FontWeight.bold
+                        ),
+                        child: AnimatedTextKit(
+                          animatedTexts: [
+                            TypewriterAnimatedText(
+                                '${controller.quotesList[index].category}'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }
