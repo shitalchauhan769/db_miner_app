@@ -1,8 +1,10 @@
+import 'package:db_miner_quotes_app/utils/helper/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../home/controller/home_controller.dart';
+import '../../home/model/db_quotes_model.dart';
 import '../../home/model/home_model.dart';
 
 class EditScreen extends StatefulWidget {
@@ -21,6 +23,7 @@ class _EditScreenState extends State<EditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("EditScreen"),
+
       ),
       body: Column(
         children: [
@@ -30,7 +33,12 @@ class _EditScreenState extends State<EditScreen> {
             alignment: Alignment.center,
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration:  const BoxDecoration(
+                color: Colors.white,
+              image: DecorationImage(
+                image: AssetImage("assets/background.jpg"),fit: BoxFit.cover,
+              )
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -70,7 +78,19 @@ class _EditScreenState extends State<EditScreen> {
                 icon: const Icon(Icons.share),
               ),
               IconButton.filledTonal(
-                onPressed: () {},
+                onPressed: () {
+                  DBQuotesModel dbQuotesModel =DBQuotesModel(
+                    // quote:quotes [1];
+                    // author:quotes [0],
+                    // category:quotes[3]
+                  );
+                  DbHelper helper=DbHelper();
+                  helper.insertQuotes(dbQuotesModel);
+
+                  controller.favoriteData();
+                  Get.snackbar("Favorite quotes", "success");
+
+                },
                 icon: const Icon(Icons.favorite),
               ),
               const Visibility(

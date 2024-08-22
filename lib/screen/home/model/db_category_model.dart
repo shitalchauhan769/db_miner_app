@@ -1,10 +1,10 @@
-class DBQuotesModel{
-  int? id;
-  String? quote,author,category;
+class DBCategoryModel{
+  int? id,index;
+  String? category;
 
-  DBQuotesModel({this.id, this.quote, this.author, this.category});
-  factory DBQuotesModel.mapToModel(Map m1)
+  DBCategoryModel({this.id, this.index, this.category});
+  factory DBCategoryModel.mapToModel(Map m1)
   {
-    return DBQuotesModel(author: m1["author"],quote: m1["quote"],category: m1["category"],id: m1["id"]);
+    return DBCategoryModel(id: m1["id"],category: m1["category"],index: m1["indexJson"]);
   }
 }
