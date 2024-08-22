@@ -26,6 +26,30 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Quotes App"),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: const Text("Light"),
+                onTap: () {
+                  controller.setTheme("Light");
+                },
+              ),
+              PopupMenuItem(
+                child: const Text("Dark"),
+                onTap: () {
+                  controller.setTheme("Dark");
+                },
+              ),
+              PopupMenuItem(
+                child: const Text("System"),
+                onTap: () {
+                  controller.setTheme("System");
+                },
+              ),
+            ],
+          ),
+        ],
       ),
       body: Obx(
         () => ListView.builder(
@@ -51,8 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Center(
                       child: DefaultTextStyle(
                         style: const TextStyle(
-                          fontSize: 20,fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 20, fontWeight: FontWeight.bold),
                         child: AnimatedTextKit(
                           animatedTexts: [
                             TypewriterAnimatedText(

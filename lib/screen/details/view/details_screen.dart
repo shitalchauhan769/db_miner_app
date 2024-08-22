@@ -20,7 +20,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("${quotes.category}"),
+          title: Text("${quotes.category}Quotes"),
         ),
         body: ListView.builder(
           itemCount: quotes.quotesList!.length,

@@ -17,6 +17,11 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   QuotesJsonModel quotes = Get.arguments;
   QuotesController controller = Get.put(QuotesController());
+  @override
+  void initState() {
+    super.initState();
+    controller.favoriteData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,7 @@ class _EditScreenState extends State<EditScreen> {
             decoration:  const BoxDecoration(
                 color: Colors.white,
               image: DecorationImage(
-                image: AssetImage("assets/background.jpg"),fit: BoxFit.cover,
+                image: AssetImage("assets/image/background.jpg"),fit: BoxFit.cover,
               )
             ),
             child: Column(
@@ -80,9 +85,9 @@ class _EditScreenState extends State<EditScreen> {
               IconButton.filledTonal(
                 onPressed: () {
                   DBQuotesModel dbQuotesModel =DBQuotesModel(
-                    // quote:quotes [1];
-                    // author:quotes [0],
-                    // category:quotes[3]
+                    // quote:quotes [0],
+                    // author:quotes [1],
+
                   );
                   DbHelper helper=DbHelper();
                   helper.insertQuotes(dbQuotesModel);
