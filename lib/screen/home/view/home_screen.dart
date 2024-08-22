@@ -59,8 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.toNamed("/details",
-                        arguments: controller.quotesList[index]);
+                    Get.toNamed(
+                      "/details",
+                      arguments: controller.quotesList[index],
+                    );
                   },
                   child: Container(
                     height: 150,
@@ -72,16 +74,32 @@ class _HomeScreenState extends State<HomeScreen> {
                           Color(0xffff126e),
                         ]),
                         borderRadius: BorderRadius.circular(20)),
-                    child: Center(
-                      child: DefaultTextStyle(
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                        child: AnimatedTextKit(
-                          animatedTexts: [
-                            TypewriterAnimatedText(
-                                '${controller.quotesList[index].category}'),
-                          ],
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DefaultTextStyle(
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            child: AnimatedTextKit(
+                              animatedTexts: [
+                                TypewriterAnimatedText(
+                                    '${controller.quotesList[index].category}'),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {
+
+                              Get.toNamed("/categoryfavourite");
+                            },
+                            icon: const Icon(Icons.favorite),
+                          ),
+                        ],
                       ),
                     ),
                   ),

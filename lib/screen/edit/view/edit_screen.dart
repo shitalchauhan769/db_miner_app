@@ -1,3 +1,4 @@
+import 'package:db_miner_quotes_app/screen/home/controller/db_controller.dart';
 import 'package:db_miner_quotes_app/utils/helper/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   QuotesJsonModel quotes = Get.arguments;
   QuotesController controller = Get.put(QuotesController());
+  DbController controllerDb=Get.put(DbController());
   @override
   void initState() {
     super.initState();
@@ -28,119 +30,75 @@ class _EditScreenState extends State<EditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("EditScreen"),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              DBQuotesModel dbQuotesModel =DBQuotesModel(
+                quote: "${quotes.quote}",
+                author: "${quotes.author}",
+
+
+              );
+              DbHelper helper=DbHelper();
+             bool isEmpty=await helper.checkQ(quotes.quote!);
+             if(isEmpty==true)
+               {
+                 helper.insertQuotes(dbQuotesModel);
+                 controller.favoriteData();
+                 Get.snackbar("Succfulley", "add");
+                 Get.toNamed("/favourite");
+               }
+             else
+               {
+                 Get.snackbar("error", "arladey agzish");
+                 Get.toNamed("/favourite");
+               }
+
+
+            },
+            icon: const Icon(Icons.favorite),
+          ),
+        ],
 
       ),
-      body: Column(
-        children: [
-          Container(
-            width: 500,
-            height: 400,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            decoration:  const BoxDecoration(
-                color: Colors.white,
-              image: DecorationImage(
-                image: AssetImage("assets/image/background.jpg"),fit: BoxFit.cover,
-              )
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "“${quotes.quote}”",
-                  style: const TextStyle(fontSize: 18),
-                  textAlign: TextAlign.justify,
-                ),
-                const SizedBox(height: 100,),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    "- ${quotes.author}",
-                    style: const TextStyle(fontSize: 16),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height,
+              alignment: Alignment.center,
+        
+              padding: const EdgeInsets.all(10),
+              decoration:  const BoxDecoration(
+                  color: Colors.white,
+                image: DecorationImage(
+                  image: AssetImage("assets/image/background.jpg"),fit: BoxFit.cover,
+                )
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    " “ ${quotes.quote} ” ",
+                    style:  TextStyle(fontSize: 18,fontWeight:FontWeight.bold),
+                    textAlign: TextAlign.justify,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 100,),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      "- ${quotes.author}",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton.filledTonal(
-                onPressed: () {},
-                icon: const Icon(Icons.text_fields_outlined),
-              ),
-              IconButton.filledTonal(
-                onPressed: () {},
-                icon: const Icon(Icons.color_lens),
-              ),
-              IconButton.filledTonal(
-                onPressed: () {},
-                icon: const Icon(Icons.image),
-              ),
-              IconButton.filledTonal(
-                onPressed: () {},
-                icon: const Icon(Icons.share),
-              ),
-              IconButton.filledTonal(
-                onPressed: () {
-                  DBQuotesModel dbQuotesModel =DBQuotesModel(
-                    // quote:quotes [0],
-                    // author:quotes [1],
-
-                  );
-                  DbHelper helper=DbHelper();
-                  helper.insertQuotes(dbQuotesModel);
-
-                  controller.favoriteData();
-                  Get.snackbar("Favorite quotes", "success");
-
-                },
-                icon: const Icon(Icons.favorite),
-              ),
-              const Visibility(
-                visible: false,
-                child: Column(
-                  children: [
-                    Text("Text"),
-                  ],
-                ),
-              ),
-              const Visibility(
-                visible: false,
-                child: Column(
-                  children: [
-                    Text("colors"),
-                  ],
-                ),
-              ),
-              const Visibility(
-                visible: false,
-                child: Column(
-                  children: [
-                    Text("image"),
-                  ],
-                ),
-              ),
-              const Visibility(
-                visible: false,
-                child: Column(
-                  children: [
-                    Text("share"),
-                  ],
-                ),
-              ),
-              const Visibility(
-                visible: false,
-                child: Column(
-                  children: [
-                    Text("favorite"),
-                  ],
-                ),
-              ),
-            ],
-          )
-        ],
+        
+          ],
+        ),
       ),
     );
   }
