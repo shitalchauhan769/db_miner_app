@@ -24,7 +24,7 @@ class DbHelper {
         String query =
             "CREATE TABLE quotes (id INTEGER PRIMARY KEY AUTOINCREMENT,author TEXT,quote TEXT)";
         String query1 =
-            "CREATE TABLE category(id INTEGER PRIMARY KEY AUTOINCREMENT,category TEXT,indexJson INTEGER)";
+            "CREATE TABLE category(id INTEGER PRIMARY KEY AUTOINCREMENT,category TEXT)";
         db.execute(query);
         db.execute(query1);
       },
@@ -57,7 +57,7 @@ class DbHelper {
 
   Future<bool> checkQ(String quotes)
   async {
-    database=await checkDB();
+    database = await checkDB();
     String query="SELECT * FROM quotes WHERE quote='$quotes'";
     List l1= await database!.rawQuery(query);
     if(l1.isEmpty)
@@ -89,9 +89,9 @@ class DbHelper {
     return categoryList;
   }
 
-  Future<bool> checkC(String  category)
-  async{
-    String query="SELECT * FROM category WHERE category ='$category'";
+  Future<bool> checkC(String category) async{
+    database=await checkDB();
+    String query="SELECT * FROM category WHERE category='$category'";
     List l1 = await database!.rawQuery(query);
     if(l1.isEmpty)
       {

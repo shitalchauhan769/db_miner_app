@@ -14,21 +14,21 @@ class QuotesController extends GetxController {
   QuotesHelper helper = QuotesHelper();
   RxList<DBQuotesModel> favouriteList = <DBQuotesModel>[].obs;
   RxList<DBCategoryModel> favouriteList1 = <DBCategoryModel>[].obs;
-  String themeName = "system";
-  String? theme;
+  RxString themeName = "system".obs;
+  // RxString theme= ;
   DbHelper helper1=DbHelper();
   RxList<String> bookMarkQuotesList=<String>[].obs;
   RxList<String> bookMarkCategoryList=<String>[].obs;
 
-  void setQuotesBookMark(String quotes,String category)
-  {
-    bookMarkCategoryList.add(category);
-    bookMarkQuotesList.add(quotes);
-    ShareHelper.helper.setCategoryList(bookMarkCategoryList);
-    ShareHelper.helper.setQuotesList(bookMarkQuotesList);
-
-  }
-
+  // void setQuotesBookMark(String quotes,String category)
+  // {
+  //   bookMarkCategoryList.add(category);
+  //   bookMarkQuotesList.add(quotes);
+  //   ShareHelper.helper.setCategoryList(bookMarkCategoryList);
+  //   ShareHelper.helper.setQuotesList(bookMarkQuotesList);
+  //
+  // }
+  //
 
   void getQuotes() async {
      quotesList.value =await helper.quotesJson();
@@ -41,21 +41,22 @@ class QuotesController extends GetxController {
 
   Future<void> favoriteCategory()
   async {
-    List<DBCategoryModel>? l1=(await helper1.readCategory());
+    List<DBCategoryModel>? l1=(await helper1. readCategory());
     favouriteList1.value=l1;
 
   }
 
 
-  void setTheme(String theme) {
+  Future<void> setTheme(String theme) async {
 
-    ShareHelper.helper.setTheme(Theme: theme);
-    getTheme();
+    ShareHelper.helper.setTheme(theme: theme);
+    await getTheme();
   }
 
   Future<void> getTheme() async {
 
-    theme = await ShareHelper.helper.getTheme();
+   String? theme = await ShareHelper.helper.getTheme();
+   themeName.value = theme?? "light";
 
   }
 }

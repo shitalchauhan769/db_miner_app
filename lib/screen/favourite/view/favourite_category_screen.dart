@@ -18,6 +18,12 @@ class _FavouriteCategoryScreenState extends State<FavouriteCategoryScreen> {
   DbHelper helper = DbHelper();
 
   @override
+  void initState() {
+    super.initState();
+    controller1.readCategory();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -30,6 +36,7 @@ class _FavouriteCategoryScreenState extends State<FavouriteCategoryScreen> {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     height: 100,
@@ -46,18 +53,30 @@ class _FavouriteCategoryScreenState extends State<FavouriteCategoryScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                            "${controller1.dbCategoryModelList[index].category}"),
-                        IconButton(
-                          onPressed: () {
-                            // helper.deleteQuotes(id: controller1.dbQuotesModelList[index].id!);
-                            helper.deleteCategory(
-                                id: controller1.dbCategoryModelList[index].id!);
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                "${controller1.dbCategoryModelList[index].category}",
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.black),
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                onPressed: () {
+                                  // helper.deleteQuotes(id: controller1.dbQuotesModelList[index].id!);
+                                  helper.deleteCategory(
+                                      id: controller1
+                                          .dbCategoryModelList[index].id!);
 
-                            controller1.readCategory();
-                          },
-                          icon: const Icon(Icons.delete),
-                        ),
+                                  controller1.readCategory();
+                                },
+                                icon: const Icon(Icons.delete),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   )

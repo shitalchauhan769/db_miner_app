@@ -12,6 +12,6 @@ Map<String,WidgetBuilder>app_routes={
   '/details':(c1)=>const DetailsScreen(),
   '/edit':(c1)=>const EditScreen(),
   '/favourite':(c1)=>const FavouriteScreen(),
-  '/categoryfavourite':(c1)=>const FavouriteCategoryScreen(),
+  '/categoryFavourite':(c1)=>const FavouriteCategoryScreen(),
 
 };

@@ -10,9 +10,7 @@ class APIHelper
 
     if (response.statusCode == 200) {
       List json = await jsonDecode(response.body);
-      List<QuotesAPiModel>quotesAPIList = json.map((e) =>
-          QuotesAPiModel.mapToModel(e),).toList();
-
+      List<QuotesAPiModel>quotesAPIList = json.map((e) => QuotesAPiModel.mapToModel(e),).toList();
       return quotesAPIList;
     }
     return null;

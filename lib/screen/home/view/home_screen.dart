@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:db_miner_quotes_app/screen/home/controller/home_controller.dart';
 import 'package:db_miner_quotes_app/screen/home/model/db_category_model.dart';
 import 'package:db_miner_quotes_app/screen/home/model/home_model.dart';
+import 'package:db_miner_quotes_app/utils/helper/shared_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -17,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   QuotesController controller = Get.put(QuotesController());
-
 
   @override
   void initState() {
@@ -37,19 +37,19 @@ class _HomeScreenState extends State<HomeScreen> {
               PopupMenuItem(
                 child: const Text("Light"),
                 onTap: () {
-                  controller.setTheme("Light");
+                  controller.setTheme("light");
                 },
               ),
               PopupMenuItem(
                 child: const Text("Dark"),
                 onTap: () {
-                  controller.setTheme("Dark");
+                  controller.setTheme("dark");
                 },
               ),
               PopupMenuItem(
                 child: const Text("System"),
                 onTap: () {
-                  controller.setTheme("System");
+                  controller.setTheme("system");
                 },
               ),
             ],
@@ -99,24 +99,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           const Spacer(),
                           IconButton(
                             onPressed: () async {
-                              DBCategoryModel dbcategoryModel=DBCategoryModel(
-                                category: "${""}"
+                              DBCategoryModel dbcategoryModel = DBCategoryModel(
+                                category:
+                                    "${controller.quotesList[index].category}",
                               );
-                              DbHelper helper=DbHelper();
-                              bool isEmpty = await helper.checkC(dbcategoryModel.category!);
-                              if(isEmpty ==true)
-                              {
+                              DbHelper helper = DbHelper();
+                              bool isEmpty = await helper.checkC(
+                                  controller.quotesList[index].category!);
+                              if (isEmpty == true) {
                                 helper.insertCategory(dbcategoryModel);
                                 controller.favoriteCategory();
                                 Get.snackbar("Successful", "add");
-                                Get.toNamed("/favourite");
+                                Get.toNamed("/categoryFavourite");
+                              } else {
+                                Get.snackbar("error", "arladey agzish");
+                                Get.toNamed("/categoryFavourite");
                               }
-                              else
-                              {
-                              Get.snackbar("error", "arladey agzish");
-                              Get.toNamed("/categoryfavourite");
-                              }
-
                             },
                             icon: const Icon(Icons.favorite),
                           ),

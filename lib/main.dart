@@ -6,18 +6,24 @@ import 'package:get/get.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  QuotesController controller=Get.put(QuotesController());
+  QuotesController controller = Get.put(QuotesController());
+  controller.getTheme();
   runApp(
-     GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: lightTheme,
-          darkTheme:darkTheme,
-          themeMode: controller.theme =="Light"
-              ?ThemeMode.light
-              :controller.theme=="Dark"
-              ?ThemeMode.dark
-              :ThemeMode.system,
-          routes: app_routes,
-        ),
+    Obx(
+      () => GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme:lightTheme,
+        darkTheme: darkTheme,
+        themeMode: controller.themeName.value == "dark"
+            ? ThemeMode.dark
+            : ThemeMode.light,
+        // themeMode: controller.theme =="Light"
+        //     ?ThemeMode.light
+        //     :controller.theme=="Dark"
+        //     ?ThemeMode.dark
+        //     :ThemeMode.system,
+        routes: app_routes,
+      ),
+    ),
   );
 }
