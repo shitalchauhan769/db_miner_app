@@ -45,7 +45,7 @@ class _EditScreenState extends State<EditScreen> {
                {
                  helper.insertQuotes(dbQuotesModel);
                  controller.favoriteData();
-                 Get.snackbar("Succfulley", "add");
+                 Get.snackbar("Successful", "add");
                  Get.toNamed("/favourite");
                }
              else
@@ -53,7 +53,6 @@ class _EditScreenState extends State<EditScreen> {
                  Get.snackbar("error", "arladey agzish");
                  Get.toNamed("/favourite");
                }
-
 
             },
             icon: const Icon(Icons.favorite),

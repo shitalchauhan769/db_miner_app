@@ -1,9 +1,12 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:db_miner_quotes_app/screen/home/controller/home_controller.dart';
+import 'package:db_miner_quotes_app/screen/home/model/db_category_model.dart';
 import 'package:db_miner_quotes_app/screen/home/model/home_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+
+import '../../../utils/helper/db_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,10 +18,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   QuotesController controller = Get.put(QuotesController());
 
+
   @override
   void initState() {
     super.initState();
     controller.getQuotes();
+    controller.favoriteCategory();
   }
 
   @override
@@ -93,9 +98,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const Spacer(),
                           IconButton(
-                            onPressed: () {
-
+                            onPressed: () async {
+                              DBCategoryModel dbcategoryModel=DBCategoryModel(
+                                category: "${""}"
+                              );
+                              DbHelper helper=DbHelper();
+                              bool isEmpty = await helper.checkC(dbcategoryModel.category!);
+                              if(isEmpty ==true)
+                              {
+                                helper.insertCategory(dbcategoryModel);
+                                controller.favoriteCategory();
+                                Get.snackbar("Successful", "add");
+                                Get.toNamed("/favourite");
+                              }
+                              else
+                              {
+                              Get.snackbar("error", "arladey agzish");
                               Get.toNamed("/categoryfavourite");
+                              }
+
                             },
                             icon: const Icon(Icons.favorite),
                           ),

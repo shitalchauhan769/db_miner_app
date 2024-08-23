@@ -89,6 +89,21 @@ class DbHelper {
     return categoryList;
   }
 
+  Future<bool> checkC(String  category)
+  async{
+    String query="SELECT * FROM category WHERE category ='$category'";
+    List l1 = await database!.rawQuery(query);
+    if(l1.isEmpty)
+      {
+        return true;
+      }
+    else
+      {
+        return false;
+      }
+
+  }
+
   Future<void> deleteCategory({required int id}) async {
     database = await checkDB();
     database!.delete("category", whereArgs: [id], where: "id==?");
