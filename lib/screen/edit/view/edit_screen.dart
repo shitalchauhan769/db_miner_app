@@ -30,6 +30,7 @@ class _EditScreenState extends State<EditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("EditScreen"),
+        backgroundColor: Color(0xffa49972),
         actions: [
           IconButton(
             onPressed: () async {
@@ -73,7 +74,7 @@ class _EditScreenState extends State<EditScreen> {
               decoration:  const BoxDecoration(
                   color: Colors.white,
                 image: DecorationImage(
-                  image: AssetImage("assets/image/background.jpg"),fit: BoxFit.cover,
+                  image: AssetImage("assets/image/background1.jpg"),fit: BoxFit.cover,
                 )
               ),
               child: Column(
@@ -81,7 +82,7 @@ class _EditScreenState extends State<EditScreen> {
                 children: [
                   Text(
                     " “ ${quotes.quote} ” ",
-                    style:  TextStyle(fontSize: 18,fontWeight:FontWeight.bold),
+                    style:  const TextStyle(fontSize: 18,fontWeight:FontWeight.bold),
                     textAlign: TextAlign.justify,
                   ),
                   const SizedBox(height: 100,),
