@@ -76,7 +76,6 @@ class DbHelper {
       "category",
       {
         "category": categoryModel.category,
-        "indexJson": categoryModel.index
       },
     );
   }
