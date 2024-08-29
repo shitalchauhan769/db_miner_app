@@ -1,10 +1,13 @@
+import 'dart:io';
+import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
+import 'dart:ui'as ui;
 import 'package:db_miner_quotes_app/screen/edit/controller/edit_controller.dart';
 import 'package:db_miner_quotes_app/screen/home/controller/db_controller.dart';
 import 'package:db_miner_quotes_app/utils/helper/db_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
+import 'package:path_provider/path_provider.dart';
 import '../../home/controller/home_controller.dart';
 import '../../home/model/db_quotes_model.dart';
 import '../../home/model/home_model.dart';
@@ -58,53 +61,50 @@ class _EditScreenState extends State<EditScreen> {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+
         children: [
           Obx(
-           () =>  RepaintBoundary(
-             key: rapaintKey,
-             child: Container(
-                width: MediaQuery.sizeOf(context).width,
-                height: 400,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    image: DecorationImage(
-                      image: AssetImage(controllerEdit.imagePart.value),
-                      fit: BoxFit.cover,
-                    )),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SelectableText(
-                      " “ ${quotes.quote} ” ",
+           () =>  Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: 400,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  image: DecorationImage(
+                    image: AssetImage(controllerEdit.imagePart.value),
+                    fit: BoxFit.cover,
+                  )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SelectableText(
+                    " “ ${quotes.quote} ” ",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: controllerEdit.textStyle.value,
+                      color: controllerEdit.selected.value,
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: SelectableText(
+                      "- ${quotes.author}",
                       style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                         fontFamily: controllerEdit.textStyle.value,
                         color: controllerEdit.selected.value,
                       ),
-                      textAlign: TextAlign.justify,
                     ),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: SelectableText(
-                        "- ${quotes.author}",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: controllerEdit.textStyle.value,
-                          color: controllerEdit.selected.value,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-           ),
+            ),
           ),
           const SizedBox(
             height: 10,
@@ -117,7 +117,7 @@ class _EditScreenState extends State<EditScreen> {
                 // textFont Change
                 IconButton.filledTonal(
                   onPressed: () {
-                    controllerEdit.textOn.value = true;
+                    controllerEdit.textOn.value = !controllerEdit.textOn.value;
                     controllerEdit.colorOn.value=false;
                     controllerEdit.imageOn.value=false;
 
@@ -129,7 +129,7 @@ class _EditScreenState extends State<EditScreen> {
                 //color
                 IconButton.filledTonal(
                   onPressed: () {
-                    controllerEdit.colorOn.value = true;
+                    controllerEdit.colorOn.value = !controllerEdit.colorOn.value;
                     controllerEdit.textOn.value = false;
                     controllerEdit.imageOn.value=false;
 
@@ -141,7 +141,7 @@ class _EditScreenState extends State<EditScreen> {
                 //image
                 IconButton.filledTonal(
                   onPressed: () {
-                    controllerEdit.imageOn.value = true;
+                    controllerEdit.imageOn.value = !controllerEdit.imageOn.value;
                     controllerEdit.colorOn.value=false;
                     controllerEdit.textOn.value=false;
                   },
@@ -162,9 +162,9 @@ class _EditScreenState extends State<EditScreen> {
           ),
           //color change
           Obx(
-            () => Expanded(
-              child: Visibility(
-                visible: controllerEdit.colorOn.value,
+            () => Visibility(
+              visible: controllerEdit.colorOn.value,
+              child: Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3),
@@ -177,7 +177,7 @@ class _EditScreenState extends State<EditScreen> {
                           controllerEdit.selected.value = Colors.primaries[index];
                         },
                         child: Container(
-                          height: 30,
+                          height: 80,
                           width:350,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -191,19 +191,18 @@ class _EditScreenState extends State<EditScreen> {
             ),
           ),
 
-          //image change
+         // image change
           Obx(
-           () =>  Expanded(
-             child: Visibility(
-                visible: controllerEdit.imageOn.value,
+           () =>  Visibility(
+              visible: controllerEdit.imageOn.value,
+              child: Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1),
+                      crossAxisCount: 2),
                   itemCount: controllerEdit.imageList.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-
                           controllerEdit.imagePart.value=controllerEdit.imageList[index];
                       },
                       child: Container(
@@ -219,10 +218,12 @@ class _EditScreenState extends State<EditScreen> {
                   },
                 ),
               ),
-           ),
+            ),
           ),
 
           // //text change
+
+
           Obx(
             () =>  Visibility(
               visible: controllerEdit.textOn.value,
@@ -259,4 +260,27 @@ class _EditScreenState extends State<EditScreen> {
       ),
     );
   }
+  Future<String> saveImage() async {
+    RenderRepaintBoundary boundary =
+    rapaintKey.currentContext!.findRenderObject()
+    as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage();
+    ByteData? byteData = (await image.toByteData(
+        format: ui.ImageByteFormat.png)) as ByteData?;
+    var bytes = byteData!.buffer.asUint8List();
+    if (Platform.isAndroid) {
+      File("/storage/emulated/0/Downloader").writeAsBytes(bytes);
+
+      return "/storage/emulated/0/Downloader";
+    }
+    else {
+      Directory? dir = await getDownloadsDirectory();
+      await File("${(dir!).path}/my.png")
+          .writeAsBytes(bytes);
+      return "${(dir).path}/my.png";
+    }
+  }
 }
+
+
+
