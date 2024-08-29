@@ -94,6 +94,28 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+      - family: OpenSans
+        fonts:
+          - asset: assets/fonts/OpenSans.ttf
+
+      - family: Sevillana
+        fonts:
+          - asset: assets/fonts/Sevillana.ttf
+
+      - family: Poppins
+        fonts:
+          - asset: assets/fonts/Poppins.ttf
+
+      - family: Kanit
+        fonts:
+          - asset: assets/fonts/Kanit.ttf
+
+      - family: OpenSans2
+        fonts:
+          - asset: assets/fonts/OpenSans2.ttf
+
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

@@ -40,9 +40,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-
                     width: MediaQuery.sizeOf(context).width,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       gradient: const LinearGradient(
@@ -58,7 +57,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                       children: [
                         Text("${controller1.dbQuotesModelList[index].quote}"),
                         Align(alignment: Alignment.bottomRight,
-                          child: Text("${controller1.dbQuotesModelList[index].author}"),
+                          child: Text("- ${controller1.dbQuotesModelList[index].author}"),
                         ),
                         Align(alignment: Alignment.centerRight,
                           child: IconButton(onPressed: () {
@@ -66,7 +65,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             controller1.readQuotes();
 
 
-                          }, icon: Icon(Icons.delete),),
+                          }, icon: const Icon(Icons.delete),),
                         ),
                       ],
                     ),
