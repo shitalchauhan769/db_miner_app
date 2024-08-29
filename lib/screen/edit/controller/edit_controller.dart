@@ -17,6 +17,7 @@ class EditController extends  GetxController
    //color
    Rx<Color> selected = Colors.black.obs;
    RxBool colorOn = false.obs;
+   RxString path = "".obs;
 
    //textchange
    // void textChange() {
