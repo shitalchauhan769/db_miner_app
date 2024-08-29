@@ -260,27 +260,27 @@ class _EditScreenState extends State<EditScreen> {
       ),
     );
   }
-  Future<String> saveImage() async {
-    RenderRepaintBoundary boundary =
-    rapaintKey.currentContext!.findRenderObject()
-    as RenderRepaintBoundary;
-    ui.Image image = await boundary.toImage();
-    ByteData? byteData = (await image.toByteData(
-        format: ui.ImageByteFormat.png)) as ByteData?;
-    var bytes = byteData!.buffer.asUint8List();
-    if (Platform.isAndroid) {
-      File("/storage/emulated/0/Downloader").writeAsBytes(bytes);
-
-      return "/storage/emulated/0/Downloader";
-    }
-    else {
-      Directory? dir = await getDownloadsDirectory();
-      await File("${(dir!).path}/my.png")
-          .writeAsBytes(bytes);
-      return "${(dir).path}/my.png";
-    }
-  }
+  // Future<String> saveImage() async {
+  //   RenderRepaintBoundary boundary =
+  //   rapaintKey.currentContext!.findRenderObject()
+  //   as RenderRepaintBoundary;
+  //   ui.Image image = await boundary.toImage();
+  //   ByteData? byteData = (await image.toByteData(
+  //       format: ui.ImageByteFormat.png)) as ByteData?;
+  //   var bytes = byteData!.buffer.asUint8List();
+  //   if (Platform.isAndroid) {
+  //     File("/storage/emulated/0/Downloader").writeAsBytes(bytes);
+  //
+  //     return "/storage/emulated/0/Downloader";
+  //   }
+  //   else {
+  //     Directory? dir = await getDownloadsDirectory();
+  //     await File("${(dir!).path}/my.png")
+  //         .writeAsBytes(bytes);
+  //     return "${(dir).path}/my.png";
+  //   }
+  // }
 }
-
+//
 
 
