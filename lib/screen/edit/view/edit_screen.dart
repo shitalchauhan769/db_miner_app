@@ -160,8 +160,8 @@ class _EditScreenState extends State<EditScreen> {
                 ),
                 IconButton.filledTonal(
                   onPressed: () async {
-                    // String path= await saveImage();
-                    // await Share.shareXFiles([XFile(path)]);
+                    String path= await saveImage();
+                  Share.shareXFiles([XFile(path)]);
                   },
                   icon: const Icon(Icons.share),
                 ),
@@ -244,12 +244,8 @@ class _EditScreenState extends State<EditScreen> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        setState(
-                          () {
-                            controllerEdit.textStyle.value =
+                        controllerEdit.textStyle.value =
                                 controllerEdit.textList[index];
-                          },
-                        );
                       },
                       child: Container(
                         height: 50,
@@ -279,9 +275,9 @@ class _EditScreenState extends State<EditScreen> {
         (await image.toByteData(format: ui.ImageByteFormat.png)) as ByteData?;
     var bytes = byteData!.buffer.asUint8List();
 
-    controllerEdit.path.value= "${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}";;
+    controllerEdit.name.value= "${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}";;
     if (Platform.isAndroid) {
-      File("/storage/emulated/0/Download/${controllerEdit.path.value}.png")
+      File("/storage/emulated/0/Download/${controllerEdit.name.value}.png")
           .writeAsBytes(bytes);
 
       return "/storage/emulated/0/Download/1.png";
@@ -292,4 +288,4 @@ class _EditScreenState extends State<EditScreen> {
     }
   }
 }
-//
+
